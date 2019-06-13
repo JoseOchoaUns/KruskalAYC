@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - AnalisisEmpirico",
+            "request": "launch",
+            "mainClass": "Kruskal.AnalisisEmpirico",
+            "projectName": "Kruskal"
+        },
+        {
+            "type": "php",
+            "request": "launch",
+            "name": "Run using local PHP Interpreter",
+            "program": "${file}",
+            "runtimeExecutable": "C:\\xampp\\php\\php.exe"
+        }
+    ]
+}

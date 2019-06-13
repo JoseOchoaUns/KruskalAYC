@@ -9,13 +9,15 @@ import com.google.gson.GsonBuilder;
 	public class AnalisisEmpirico{
 		
 		public static void main(String[] args) throws IOException {
-			
-			try{
-				Grafo grafo = getGrafo(500,40000);
+				try{
+                Grafo grafo = getGrafo(6,6,0);
+				System.out.println(grafo.esConexoDisjointSet());
+				System.out.println(grafo.esConexoBFS());
 				System.out.println("Grafo conexo con "+ grafo.getNodosCount() + " nodos y "+ grafo.getArcosCount() + " arcos construido");
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
+		
 			
 			
 			/*
@@ -29,15 +31,16 @@ import com.google.gson.GsonBuilder;
 			
 		}
 
-		private static Grafo getGrafo(int nodos, int arcos) throws Exception {
+		private static Grafo getGrafo(int nodos, int arcos, int conexo) throws Exception {
 			// TODO Auto-generated method stub
-			String consulta = "curl http://cs.uns.edu.ar/~mom/AyC2019/grafo.php?nodos="+nodos+"&arcos="+arcos;
+			String consulta = "curl http://cs.uns.edu.ar/~mom/AyC2019/grafo.php?nodos="+nodos+"&arcos="+arcos+"&conexo="+conexo;
+			System.out.println(consulta);
 			Process process = Runtime.getRuntime().exec(consulta);
 			InputStream inputSt = process.getInputStream();
 			@SuppressWarnings("resource")
 			Scanner s = new Scanner(inputSt).useDelimiter("\\A");
 			String jsonString = s.hasNext() ? s.next() : "";
-			System.out.println("Tengo el grafo en formato JSON. Lo convierto...");
+            System.out.println("Tengo el grafo en formato JSON. Lo convierto...");
 			Gson gson = new GsonBuilder().create();
 			try{
 				Grafo.GrafoObj gr = gson.fromJson(jsonString, Grafo.GrafoObj.class);
