@@ -2,7 +2,9 @@ package Kruskal;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Comparator;
 
 
 
@@ -15,7 +17,14 @@ public class Grafo {
 	private static final String GRIS = "Gris";
 	private static final String NEGRO = "Negro";
 
-	private class Pesado {
+	public class Comparador implements Comparator<Pesado> {
+		@Override
+		public int compare(Pesado p1, Pesado p2) {
+			return Integer.compare(p1.peso, p2.peso);
+		}
+	}
+
+	public class Pesado {
 		private Arco arco;
 		private int peso;
 		
@@ -136,7 +145,119 @@ public class Grafo {
 				ds.union(pesado.arco.nodo1, pesado.arco.nodo2);
 			}
 		}
-		
+
 		return ds.unicoSet();
+	}
+
+
+	public ArrayList<Pesado> kruskalOrdenandoConHeuristicas(){
+		ArrayList<Pesado> arbol = new ArrayList<Pesado>();
+		Comparador comparador = new Comparador();
+		DisjointSetConHeuristicas ds = new DisjointSetConHeuristicas();
+
+		for(Integer nodo: this.nodos){
+			ds.makeSet(nodo);
+		}
+		this.arcos.sort(comparador);
+
+		for (Pesado arcoActual : this.arcos) {
+			if(ds.findSet(arcoActual.arco.nodo1) != ds.findSet(arcoActual.arco.nodo2)){
+				arbol.add(arcoActual);
+				ds.union(arcoActual.arco.nodo1, arcoActual.arco.nodo2);
+				if(arbol.size() == this.nodos.length - 1){
+					return arbol;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public ArrayList<Pesado> kruskalOrdenandoSinHeuristicas(){
+		ArrayList<Pesado> arbol = new ArrayList<Pesado>();
+		Comparador comparador = new Comparador();
+		DisjointSetSinHeuristicas ds = new DisjointSetSinHeuristicas();
+
+		for(Integer nodo: this.nodos){
+			ds.makeSet(nodo);
+		}
+
+		this.arcos.sort(comparador);
+
+		for (Pesado arcoActual : this.arcos) {
+			if(ds.findSet(arcoActual.arco.nodo1) != ds.findSet(arcoActual.arco.nodo2)){
+				arbol.add(arcoActual);
+				ds.union(arcoActual.arco.nodo1, arcoActual.arco.nodo2);
+				if(arbol.size() == this.nodos.length - 1){
+					return arbol;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public ArrayList<Pesado> kruskalMinHeapConHeuristicas(){
+		ArrayList<Pesado> arbol = new ArrayList<Pesado>();
+		DisjointSetConHeuristicas ds = new DisjointSetConHeuristicas();
+		Comparador comparador = new Comparador();
+		PriorityQueue <Pesado> minHeap = new PriorityQueue <Pesado>(comparador);
+		Pesado arcoActual;
+
+		for(Integer nodo: this.nodos){
+			ds.makeSet(nodo);
+		}
+
+		for(Pesado pesado : this.arcos){
+			minHeap.add(pesado);
+		}
+		
+		while(!minHeap.isEmpty()){
+			arcoActual = minHeap.remove();
+			if(ds.findSet(arcoActual.arco.nodo1) != ds.findSet(arcoActual.arco.nodo2)){
+				arbol.add(arcoActual);
+				ds.union(arcoActual.arco.nodo1, arcoActual.arco.nodo2);
+				if(arbol.size() == this.nodos.length - 1){
+					return arbol;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public ArrayList<Pesado> kruskalMinHeapSinHeuristicas(){
+		ArrayList<Pesado> arbol = new ArrayList<Pesado>();
+		DisjointSetSinHeuristicas ds = new DisjointSetSinHeuristicas();
+		Comparador comparador = new Comparador();
+		PriorityQueue <Pesado> minHeap = new PriorityQueue <Pesado>(comparador);
+		Pesado arcoActual;
+
+		for(Integer nodo: this.nodos){
+			ds.makeSet(nodo);
+		}
+
+		for(Pesado pesado : this.arcos){
+			minHeap.add(pesado);
+		}
+		
+		while(!minHeap.isEmpty()){
+			arcoActual = minHeap.remove();
+			if(ds.findSet(arcoActual.arco.nodo1) != ds.findSet(arcoActual.arco.nodo2)){
+				arbol.add(arcoActual);
+				ds.union(arcoActual.arco.nodo1, arcoActual.arco.nodo2);
+				if(arbol.size() == this.nodos.length - 1){
+					return arbol;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public void mostrarArbol(ArrayList<Pesado> lista){
+		for(Pesado p : lista){
+			System.out.println("("+ p.arco.nodo1+" , "+ p.arco.nodo2 + ") peso:" + p.peso);
+		}
 	}
 }

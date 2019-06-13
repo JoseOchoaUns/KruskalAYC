@@ -10,9 +10,26 @@ import com.google.gson.GsonBuilder;
 		
 		public static void main(String[] args) throws IOException {
 				try{
-                Grafo grafo = getGrafo(6,6,0);
+				int nodos = 10;
+				int arcos = 15;
+                Grafo grafo = getGrafo(nodos,arcos,1);
 				System.out.println(grafo.esConexoDisjointSet());
 				System.out.println(grafo.esConexoBFS());
+				if(grafo.esConexoBFS()){
+					grafo.mostrarArbol(grafo.kruskalMinHeapConHeuristicas());
+					System.out.println("------------------------------");
+					System.out.println("------------------------------");
+					System.out.println("------------------------------");
+					grafo.mostrarArbol(grafo.kruskalMinHeapSinHeuristicas());
+					System.out.println("------------------------------");
+					System.out.println("------------------------------");
+					System.out.println("------------------------------");
+					grafo.mostrarArbol(grafo.kruskalOrdenandoConHeuristicas());
+					System.out.println("------------------------------");
+					System.out.println("------------------------------");
+					System.out.println("------------------------------");
+					grafo.mostrarArbol(grafo.kruskalOrdenandoSinHeuristicas());
+				}
 				System.out.println("Grafo conexo con "+ grafo.getNodosCount() + " nodos y "+ grafo.getArcosCount() + " arcos construido");
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
