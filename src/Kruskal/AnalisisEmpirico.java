@@ -9,7 +9,7 @@ import com.google.gson.GsonBuilder;
 	public class AnalisisEmpirico{
 		
 		public static void main(String[] args) throws IOException {
-				Grafo grafo;
+				Grafo grafo,grafo2,grafo3,grafo4;
 				long start,fin;
 				int[] nodos = {50, 50, 250, 250, 500, 500 };
 				int[] arcos = {49, 1200, 249, 20000, 499, 60000};
@@ -20,6 +20,7 @@ import com.google.gson.GsonBuilder;
 				for (int i = 0; i < nodos.length;i++) {
 					System.out.println("Caso de prueba: Grafo con "+nodos[i]+" nodos y "+arcos[i]+" arcos");
 					grafo = getGrafo(nodos[i],arcos[i],false);
+					//Ver si es necesario hacer la copia aca tambien. Hablar con pp
 					start = System.nanoTime();
 					grafo.esConexoBFS();
 					fin = System.nanoTime();
@@ -41,20 +42,25 @@ import com.google.gson.GsonBuilder;
 					for (int i = 0; i < nodos2.length;i++) {
 						System.out.println("Caso de prueba: Grafo con "+nodos2[i]+" nodos y "+arcos2[i]+" arcos");
 						grafo = getGrafo(nodos2[i],arcos2[i],true);
+						//Ver si clona las cosas de adentro tambien
+						grafo2 =  grafo.clone();
+						grafo3 =  grafo.clone();
+						grafo4 =  grafo.clone();
+					
 						start = System.nanoTime();
 						grafo.kruskalOrdenandoConHeuristicas();
 						fin = System.nanoTime();
 						System.out.println("Tiempo de ejecucion con Heuristicas y Ordenado: "+(fin-start)+" ns, "+(fin-start)/1000000+" ms");
 						start = System.nanoTime();
-						grafo.kruskalOrdenandoSinHeuristicas();
+						grafo2.kruskalOrdenandoSinHeuristicas();
 						fin = System.nanoTime();
 						System.out.println("Tiempo de ejecucion sin Heuristicas y Ordenado: "+(fin-start)+" ns, "+(fin-start)/1000000+" ms");
 						start = System.nanoTime();
-						grafo.kruskalMinHeapConHeuristicas();
+						grafo3.kruskalMinHeapConHeuristicas();
 						fin = System.nanoTime();
 						System.out.println("Tiempo de ejecucion con Heuristicas y con heap: "+(fin-start)+" ns, "+(fin-start)/1000000+" ms");
 						start = System.nanoTime();
-						grafo.kruskalMinHeapSinHeuristicas();
+						grafo4.kruskalMinHeapSinHeuristicas();
 						fin = System.nanoTime();
 						System.out.println("Tiempo de ejecucion sin Heuristicas y con heap: "+(fin-start)+" ns, "+(fin-start)/1000000+" ms");
 					}
@@ -65,24 +71,6 @@ import com.google.gson.GsonBuilder;
 				
 				
 				
-				/*
-				if(grafo.esConexoBFS()){
-					grafo.mostrarArbol(grafo.kruskalMinHeapConHeuristicas());
-					System.out.println("------------------------------");
-					System.out.println("------------------------------");
-					System.out.println("------------------------------");
-					grafo.mostrarArbol(grafo.kruskalMinHeapSinHeuristicas());
-					System.out.println("------------------------------");
-					System.out.println("------------------------------");
-					System.out.println("------------------------------");
-					grafo.mostrarArbol(grafo.kruskalOrdenandoConHeuristicas());
-					System.out.println("------------------------------");
-					System.out.println("------------------------------");
-					System.out.println("------------------------------");
-					grafo.mostrarArbol(grafo.kruskalOrdenandoSinHeuristicas());
-				}
-				System.out.println("Grafo conexo con "+ grafo.getNodosCount() + " nodos y "+ grafo.getArcosCount() + " arcos construido");
-			*/
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}

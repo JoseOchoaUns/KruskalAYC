@@ -17,7 +17,7 @@ public class DisjointSetConHeuristicas {
 
 	private final HashMap<Integer, Node> objectsToNodes = new HashMap <Integer, Node>();
 	private int cantSet = 0;
-	
+
 	public int findSet(int o) {
 		DisjointSetConHeuristicas.Node node = (DisjointSetConHeuristicas.Node) objectsToNodes.get(o);
 		if (o != node.parent)

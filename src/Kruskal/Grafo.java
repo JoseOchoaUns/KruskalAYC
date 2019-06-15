@@ -82,6 +82,14 @@ public class Grafo {
 		}
 	}
 	
+	@SuppressWarnings("rawtypes")
+	public Grafo(int[] n, ArrayList<Pesado> a, String[] c){
+		this.nodos = n;
+		this.arcos = a;
+		this.color = c;
+		
+	}
+	
 	private void inicializarColores(){
 		for(int i = 0; i < this.color.length ; i++){
 			this.color[i] = BLANCO;
@@ -260,4 +268,9 @@ public class Grafo {
 			System.out.println("("+ p.arco.nodo1+" , "+ p.arco.nodo2 + ") peso:" + p.peso);
 		}
 	}
+	
+	public Grafo clone(){
+		Grafo salida = new Grafo(this.nodos.clone(),(ArrayList<Pesado>) this.arcos.clone(),this.color.clone());
+		return salida;  
+		}
 }
