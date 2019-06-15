@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class DisjointSetConHeuristicas {
-
+	
 	private static class Node {
 		int rank;
 		int parent;
@@ -16,7 +16,8 @@ public class DisjointSetConHeuristicas {
 	}
 
 	private final HashMap<Integer, Node> objectsToNodes = new HashMap <Integer, Node>();
-
+	private int cantSet = 0;
+	
 	public int findSet(int o) {
 		DisjointSetConHeuristicas.Node node = (DisjointSetConHeuristicas.Node) objectsToNodes.get(o);
 		if (o != node.parent)
@@ -26,6 +27,7 @@ public class DisjointSetConHeuristicas {
 
 	public void makeSet(int o) {
 		objectsToNodes.put(o, new Node(o, 0));
+		this.cantSet++;
 	}
 
 	public void removeSet(int o) {
@@ -40,13 +42,14 @@ public class DisjointSetConHeuristicas {
 	}
 
     public boolean unicoSet(){
-		int setActual = this.findSet(0);
+		/*int setActual = this.findSet(0);
 		for(int i = 1; i < this.objectsToNodes.size(); i ++){
 			if(this.findSet(i) != setActual){
 				return false;
 			}
 		}
-        return true;
+        return true;*/
+    	return this.cantSet == 1;
     }
 
 	public void union(int x, int y) {
@@ -61,5 +64,8 @@ public class DisjointSetConHeuristicas {
 			if (nodeX.rank == nodeY.rank)
 				nodeY.rank++;
 		}
+		this.cantSet--;
 	}
+
+	
 }

@@ -14,7 +14,7 @@ public class DisjointSetSinHeuristicas {
 	}
 
 	private final HashMap<Integer, Node> objectsToNodes = new HashMap <Integer, Node>();
-
+	private int cantSet = 0;
 	public int findSet(int o) {
 		DisjointSetSinHeuristicas.Node node = (DisjointSetSinHeuristicas.Node) objectsToNodes.get(o);
 		if (o != node.parent)
@@ -24,6 +24,7 @@ public class DisjointSetSinHeuristicas {
 
 	public void makeSet(int o) {
 		objectsToNodes.put(o, new Node(o));
+		this.cantSet++;
 	}
 
 	public void removeSet(int o) {
@@ -38,18 +39,21 @@ public class DisjointSetSinHeuristicas {
 	}
 
     public boolean unicoSet(){
+    	/*
 		int setActual = this.findSet(0);
 		for(int i = 1; i < this.objectsToNodes.size(); i ++){
 			if(this.findSet(i) != setActual){
 				return false;
 			}
 		}
-        return true;
+        return true;*/
+    	return this.cantSet == 1;
     }
 
 	public void union(int x, int y) {
 		int setX = findSet(x);
 		DisjointSetSinHeuristicas.Node nodeX = objectsToNodes.get(setX);
 		nodeX.parent = y;
+		this.cantSet--;
 	}
 }

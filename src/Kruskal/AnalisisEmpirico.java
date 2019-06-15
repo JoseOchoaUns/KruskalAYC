@@ -9,12 +9,63 @@ import com.google.gson.GsonBuilder;
 	public class AnalisisEmpirico{
 		
 		public static void main(String[] args) throws IOException {
+				Grafo grafo;
+				long start,fin;
+				int[] nodos = {50, 50, 250, 250, 500, 500 };
+				int[] arcos = {49, 1200, 249, 20000, 499, 60000};
+				
 				try{
-				int nodos = 10;
-				int arcos = 15;
-                Grafo grafo = getGrafo(nodos,arcos,1);
-				System.out.println(grafo.esConexoDisjointSet());
-				System.out.println(grafo.esConexoBFS());
+				System.out.println("------------------------------");
+				System.out.println("Evaluamos la ejecucion de esConexo en sus 2 variantes: ");
+				for (int i = 0; i < nodos.length;i++) {
+					System.out.println("Caso de prueba: Grafo con "+nodos[i]+" nodos y "+arcos[i]+" arcos");
+					grafo = getGrafo(nodos[i],arcos[i],false);
+					start = System.nanoTime();
+					grafo.esConexoBFS();
+					fin = System.nanoTime();
+					System.out.println("Tiempo de ejecucion con BFS: "+(fin-start)+" ns, "+(fin-start)/1000000+" ms");
+					start = System.nanoTime();
+					grafo.esConexoDisjointSet();
+					fin = System.nanoTime();
+					System.out.println("Tiempo de ejecucion con disjointSet: "+(fin-start)+" ns, "+(fin-start)/1000000+" ms");
+					
+					
+				}
+				
+				int[] nodos2 = {120, 120, 190 , 190, 400 , 400};
+				int[] arcos2 = {119, 1200, 189, 14000, 399, 60000};
+
+				
+					System.out.println("------------------------------");
+					System.out.println("Evaluamos la ejecucion de Kruskal en sus 4 variantes: ");
+					for (int i = 0; i < nodos2.length;i++) {
+						System.out.println("Caso de prueba: Grafo con "+nodos2[i]+" nodos y "+arcos2[i]+" arcos");
+						grafo = getGrafo(nodos2[i],arcos2[i],true);
+						start = System.nanoTime();
+						grafo.kruskalOrdenandoConHeuristicas();
+						fin = System.nanoTime();
+						System.out.println("Tiempo de ejecucion con Heuristicas y Ordenado: "+(fin-start)+" ns, "+(fin-start)/1000000+" ms");
+						start = System.nanoTime();
+						grafo.kruskalOrdenandoSinHeuristicas();
+						fin = System.nanoTime();
+						System.out.println("Tiempo de ejecucion sin Heuristicas y Ordenado: "+(fin-start)+" ns, "+(fin-start)/1000000+" ms");
+						start = System.nanoTime();
+						grafo.kruskalMinHeapConHeuristicas();
+						fin = System.nanoTime();
+						System.out.println("Tiempo de ejecucion con Heuristicas y con heap: "+(fin-start)+" ns, "+(fin-start)/1000000+" ms");
+						start = System.nanoTime();
+						grafo.kruskalMinHeapSinHeuristicas();
+						fin = System.nanoTime();
+						System.out.println("Tiempo de ejecucion sin Heuristicas y con heap: "+(fin-start)+" ns, "+(fin-start)/1000000+" ms");
+					}
+					
+				
+				
+				
+				
+				
+				
+				/*
 				if(grafo.esConexoBFS()){
 					grafo.mostrarArbol(grafo.kruskalMinHeapConHeuristicas());
 					System.out.println("------------------------------");
@@ -31,6 +82,7 @@ import com.google.gson.GsonBuilder;
 					grafo.mostrarArbol(grafo.kruskalOrdenandoSinHeuristicas());
 				}
 				System.out.println("Grafo conexo con "+ grafo.getNodosCount() + " nodos y "+ grafo.getArcosCount() + " arcos construido");
+			*/
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
@@ -48,16 +100,21 @@ import com.google.gson.GsonBuilder;
 			
 		}
 
-		private static Grafo getGrafo(int nodos, int arcos, int conexo) throws Exception {
+		private static Grafo getGrafo(int nodos, int arcos, boolean conexo) throws Exception {
 			// TODO Auto-generated method stub
-			String consulta = "curl http://cs.uns.edu.ar/~mom/AyC2019/grafo.php?nodos="+nodos+"&arcos="+arcos+"&conexo="+conexo;
-			System.out.println(consulta);
+			String consulta = "";
+			if (conexo)
+				consulta = "curl http://cs.uns.edu.ar/~mom/AyC2019/grafo.php?nodos="+nodos+"&arcos="+arcos+"&conexo=1";
+			else 
+				consulta = "curl http://cs.uns.edu.ar/~mom/AyC2019/grafo.php?nodos="+nodos+"&arcos="+arcos;
+			
+			//System.out.println(consulta);
 			Process process = Runtime.getRuntime().exec(consulta);
 			InputStream inputSt = process.getInputStream();
 			@SuppressWarnings("resource")
 			Scanner s = new Scanner(inputSt).useDelimiter("\\A");
 			String jsonString = s.hasNext() ? s.next() : "";
-            System.out.println("Tengo el grafo en formato JSON. Lo convierto...");
+            //System.out.println("Tengo el grafo en formato JSON. Lo convierto...");
 			Gson gson = new GsonBuilder().create();
 			try{
 				Grafo.GrafoObj gr = gson.fromJson(jsonString, Grafo.GrafoObj.class);
