@@ -11,8 +11,8 @@ import com.google.gson.GsonBuilder;
 		public static void main(String[] args) throws IOException {
 				Grafo grafo,grafo2,grafo3,grafo4;
 				long start,fin;
-				int[] nodos = {50, 50, 250, 250, 500, 500 };
-				int[] arcos = {49, 1200, 249, 20000, 499, 60000};
+				int[] nodos = {50, 50, 50,250, 250,250, 500, 500, 500};
+				int[] arcos = {49, 500,1200, 249,2500 ,20000, 499, 5000, 124000};
 				
 				try{
 				System.out.println("------------------------------");
@@ -33,9 +33,11 @@ import com.google.gson.GsonBuilder;
 					
 				}
 				
-				int[] nodos2 = {120, 120, 190 , 190, 400 , 400};
-				int[] arcos2 = {119, 1200, 189, 14000, 399, 60000};
-
+				int[] nodos2 = {10,10,10,50,50,50,100,100,100,200,200,200,400,400,400,500,500,500};
+				int[] arcos2 = {9,25,44,49,500,1100,99,1000,4900,199,2000,19000,399,4000,79000,499,5000,124000};
+			
+		
+				
 				
 					System.out.println("------------------------------");
 					System.out.println("Evaluamos la ejecucion de Kruskal en sus 4 variantes: ");
@@ -53,7 +55,7 @@ import com.google.gson.GsonBuilder;
 						System.out.println("Tiempo de ejecucion con Heuristicas y Ordenado: "+(fin-start)+" ns, "+(fin-start)/1000000+" ms");
 						start = System.nanoTime();
 						grafo2.kruskalOrdenandoSinHeuristicas();
-						fin = System.nanoTime();
+						fin = System.nanoTime();						
 						System.out.println("Tiempo de ejecucion sin Heuristicas y Ordenado: "+(fin-start)+" ns, "+(fin-start)/1000000+" ms");
 						start = System.nanoTime();
 						grafo3.kruskalMinHeapConHeuristicas();
@@ -64,7 +66,6 @@ import com.google.gson.GsonBuilder;
 						fin = System.nanoTime();
 						System.out.println("Tiempo de ejecucion sin Heuristicas y con heap: "+(fin-start)+" ns, "+(fin-start)/1000000+" ms");
 					}
-					
 				
 				
 				

@@ -20,6 +20,7 @@ public class DisjointSetConHeuristicas {
 
 	public int findSet(int o) {
 		DisjointSetConHeuristicas.Node node = (DisjointSetConHeuristicas.Node) objectsToNodes.get(o);
+
 		if (o != node.parent)
 			node.parent = findSet(node.parent);
 		return node.parent;
