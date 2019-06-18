@@ -77,9 +77,6 @@ public class Grafo {
 		Object[][] arcos;
 	}
 
-	
-
-	
 
 	public void mostrarArbol(ArrayList<Pesado> lista){
 		for(Pesado p : lista){

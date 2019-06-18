@@ -77,7 +77,7 @@ public class actividad {
 	}
 
 	public boolean esConexoDisjointSet(){
-		DisjointSetConHeuristicas ds = new DisjointSetConHeuristicas();
+		DisjointSetConHeuristicas ds = new DisjointSetConHeuristicas(grafo.getNodosCount());
 		int[] nodos=grafo.getNodos();
 		for(int nodo: nodos){
 			ds.makeSet(nodo);
@@ -96,7 +96,7 @@ public class actividad {
 	public ArrayList<Pesado> kruskalOrdenandoConHeuristicas(){
 		ArrayList<Pesado> arbol = new ArrayList<Pesado>();
 		Comparador comparador = new Comparador();
-		DisjointSetConHeuristicas ds = new DisjointSetConHeuristicas();
+		DisjointSetConHeuristicas ds = new DisjointSetConHeuristicas(grafo.getNodosCount());
 		int[] nodos=grafo.getNodos();
 		ArrayList<Pesado> arcos=grafo.getArcos();
 		for(Integer nodo: nodos){
@@ -121,7 +121,7 @@ public class actividad {
 	public ArrayList<Pesado> kruskalOrdenandoSinHeuristicas(){
 		ArrayList<Pesado> arbol = new ArrayList<Pesado>();
 		Comparador comparador = new Comparador();
-		DisjointSetSinHeuristicas ds = new DisjointSetSinHeuristicas();
+		DisjointSetSinHeuristicas ds = new DisjointSetSinHeuristicas(grafo.getNodosCount());
 		int[] nodos=grafo.getNodos();
 		ArrayList<Pesado> arcos=grafo.getArcos();
 		
@@ -146,7 +146,7 @@ public class actividad {
 
 	public ArrayList<Pesado> kruskalMinHeapConHeuristicas(){
 		ArrayList<Pesado> arbol = new ArrayList<Pesado>();
-		DisjointSetConHeuristicas ds = new DisjointSetConHeuristicas();
+		DisjointSetConHeuristicas ds = new DisjointSetConHeuristicas(grafo.getNodosCount());
 		Comparador comparador = new Comparador();
 		PriorityQueue <Pesado> minHeap = new PriorityQueue <Pesado>(comparador);
 		Pesado arcoActual;
@@ -178,7 +178,7 @@ public class actividad {
 
 	public ArrayList<Pesado> kruskalMinHeapSinHeuristicas(){
 		ArrayList<Pesado> arbol = new ArrayList<Pesado>();
-		DisjointSetSinHeuristicas ds = new DisjointSetSinHeuristicas();
+		DisjointSetSinHeuristicas ds = new DisjointSetSinHeuristicas(grafo.getNodosCount());
 		Comparador comparador = new Comparador();
 		PriorityQueue <Pesado> minHeap = new PriorityQueue <Pesado>(comparador);
 		Pesado arcoActual;

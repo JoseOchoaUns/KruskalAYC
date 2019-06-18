@@ -1,15 +1,16 @@
 package DisjoinSet;
 
-import java.util.HashMap;
-import java.util.Iterator;
-
 public class DisjointSetConHeuristicas implements DisjoinSet{
 
-	private final HashMap<Integer, NodeH> objectsToNodes = new HashMap <Integer, NodeH>();
 	private int cantSet = 0;
+	private NodeH[] objectsToNodes;
+
+	public DisjointSetConHeuristicas(int size){
+		this.objectsToNodes = new NodeH[size];
+	}
 
 	public int findSet(int o) {
-		NodeH node = (NodeH) objectsToNodes.get(o);
+		NodeH node = objectsToNodes[o];
 
 		if (o != node.getParent())
 			node.setParent(findSet(node.getParent()));
@@ -17,19 +18,8 @@ public class DisjointSetConHeuristicas implements DisjoinSet{
 	}
 
 	public void makeSet(int o) {
-		objectsToNodes.put(o, new NodeH(o, 0));
+		this.objectsToNodes[o] = new NodeH(o,0);
 		this.cantSet++;
-	}
-
-	public void removeSet(int o) {
-		int set = findSet(o);
-		for (Iterator<Integer> it = objectsToNodes.keySet().iterator(); it.hasNext();) {
-			int next = it.next();
-			//remove the set representative last, otherwise findSet will fail
-			if (next != set && findSet(next) == set)
-				it.remove();
-		}
-		objectsToNodes.remove(set);
 	}
 
     public boolean unicoSet() {
@@ -39,8 +29,8 @@ public class DisjointSetConHeuristicas implements DisjoinSet{
 	public void union(int x, int y) {
 		int setX = findSet(x);
 		int setY = findSet(y);
-		NodeH nodeX = objectsToNodes.get(setX);
-		NodeH nodeY = objectsToNodes.get(setY);
+		NodeH nodeX = objectsToNodes[setX];
+		NodeH nodeY = objectsToNodes[setY];
 		if (nodeX.rank > nodeY.rank) {
 			nodeY.setParent(x);
 		} else {
@@ -50,8 +40,4 @@ public class DisjointSetConHeuristicas implements DisjoinSet{
 		}
 		this.cantSet--;
 	}
-
-	
-
-	
 }
