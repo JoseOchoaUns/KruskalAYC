@@ -8,6 +8,8 @@ import java.util.Vector;
 
 import DisjoinSet.DisjointSetConHeuristicas;
 import DisjoinSet.DisjointSetSinHeuristicas;
+import MinHeap.ColaCP;
+import MinHeap.MinHeap;
 
 
 
@@ -92,7 +94,17 @@ public class actividad {
 		return ds.unicoSet();
 	}
 
-
+	private ArrayList<Pesado> heapsort(ArrayList<Pesado> l) {
+		MinHeap minh=new ColaCP(l.size());
+		ArrayList<Pesado> aux=new ArrayList();
+		for(Pesado p:l)
+			minh.add(p);
+		while(!minh.isEmpty()) {
+			aux.add(minh.removeMin());
+		}
+		
+		return aux;
+	}
 	public ArrayList<Pesado> kruskalOrdenandoConHeuristicas(){
 		ArrayList<Pesado> arbol = new ArrayList<Pesado>();
 		Comparador comparador = new Comparador();
@@ -103,7 +115,7 @@ public class actividad {
 			ds.makeSet(nodo);
 		}
 		
-		arcos.sort(comparador);
+		arcos=heapsort(arcos);
 
 		for (Pesado arcoActual : arcos) {
 			if(ds.findSet(arcoActual.getN1()) != ds.findSet(arcoActual.getN2())){
@@ -129,7 +141,7 @@ public class actividad {
 			ds.makeSet(nodo);
 		}
 
-		arcos.sort(comparador);
+		arcos=heapsort(arcos);
 
 		for (Pesado arcoActual : arcos) {
 			if(ds.findSet(arcoActual.getN1()) != ds.findSet(arcoActual.getN2())){
@@ -148,11 +160,11 @@ public class actividad {
 		ArrayList<Pesado> arbol = new ArrayList<Pesado>();
 		DisjointSetConHeuristicas ds = new DisjointSetConHeuristicas(grafo.getNodosCount());
 		Comparador comparador = new Comparador();
-		PriorityQueue <Pesado> minHeap = new PriorityQueue <Pesado>(comparador);
+		
 		Pesado arcoActual;
 		int[] nodos=grafo.getNodos();
 		ArrayList<Pesado> arcos=grafo.getArcos();
-		
+		MinHeap minHeap = new ColaCP(arcos.size());
 		
 		for(Integer nodo: nodos){
 			ds.makeSet(nodo);
@@ -163,7 +175,7 @@ public class actividad {
 		}
 		
 		while(!minHeap.isEmpty()){
-			arcoActual = minHeap.remove();
+			arcoActual = minHeap.removeMin();
 			if(ds.findSet(arcoActual.getN1()) != ds.findSet(arcoActual.getN2())){
 				arbol.add(arcoActual);
 				ds.union(arcoActual.getN1(), arcoActual.getN2());
@@ -179,12 +191,10 @@ public class actividad {
 	public ArrayList<Pesado> kruskalMinHeapSinHeuristicas(){
 		ArrayList<Pesado> arbol = new ArrayList<Pesado>();
 		DisjointSetSinHeuristicas ds = new DisjointSetSinHeuristicas(grafo.getNodosCount());
-		Comparador comparador = new Comparador();
-		PriorityQueue <Pesado> minHeap = new PriorityQueue <Pesado>(comparador);
 		Pesado arcoActual;
 		int[] nodos=grafo.getNodos();
 		ArrayList<Pesado> arcos=grafo.getArcos();
-		
+		MinHeap minHeap = new ColaCP(arcos.size());
 		
 		for(Integer nodo: nodos){
 			ds.makeSet(nodo);
@@ -195,7 +205,7 @@ public class actividad {
 		}
 		
 		while(!minHeap.isEmpty()){
-			arcoActual = minHeap.remove();
+			arcoActual = minHeap.removeMin();
 			if(ds.findSet(arcoActual.getN1()) != ds.findSet(arcoActual.getN2())){
 				arbol.add(arcoActual);
 				ds.union(arcoActual.getN1(), arcoActual.getN2());
